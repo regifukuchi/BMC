@@ -1,16 +1,18 @@
 """Time normalization (from 0 to 100% with step interval)."""
 
+import warnings
 import numpy as np
 
 __author__ = 'Marcos Duarte, https://github.com/demotu/BMC'
 __version__ = "1.0.6"
 __license__ = "MIT"
 
+warnings.warn('A newest version is available at https://pypi.org/project/tnorma/')
+
 
 def tnorm(y, axis=0, step=1, k=3, smooth=0, mask=None, nan_at_ext='delete',
           show=False, ax=None):
     """Time normalization (from 0 to 100% with step interval).
-
     Time normalization is usually employed for the temporal alignment of data
     obtained from different trials with different duration (number of points).
     This code implements a procedure knwown as the normalization to percent
@@ -150,7 +152,6 @@ def tnorm(y, axis=0, step=1, k=3, smooth=0, mask=None, nan_at_ext='delete',
         Deleted 'from __future__ import ...'
         Added parameter `nan_at_ext`
         Adjusted outputs to have always the same type
-
     """
 
     from scipy.interpolate import UnivariateSpline
@@ -205,7 +206,7 @@ def tnorm(y, axis=0, step=1, k=3, smooth=0, mask=None, nan_at_ext='delete',
     if step == 0:
         tn = t
     elif step > 0:
-        tn = np.linspace(0, 100, np.round(100 / step + 1))
+        tn = np.linspace(0, 100, int(np.round(100 / step + 1)))
     else:
         tn = np.linspace(0, 100, -step)
     yn = np.empty([tn.size, y.shape[1]]) * np.NaN
